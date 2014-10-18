@@ -11,8 +11,11 @@ Movierama::Application.routes.draw do
 
   get "movies/index"
 
-  get "users/new"
+  root to: 'movies#index'
 
+  resources :users
+
+    match '/signup', to: 'users#new'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

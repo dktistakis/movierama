@@ -37,6 +37,7 @@ class User < ActiveRecord::Base
 
   # ---------------------- Callbacks ----------------------------------
   before_save :downcase_email # so as to ensure uniqueness before saving to database
+  after_validation { self.errors.messages.delete(:password_digest) }
 
   # -------------- Instance Methods ------------------------------------
 
