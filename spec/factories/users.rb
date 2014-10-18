@@ -7,6 +7,6 @@ FactoryGirl.define do
     # password_digest "foobar"
     password "foobar"
     password_confirmation "foobar"
-    remember_token "MyString"
+    # remember_token "MyString"
   end
 end

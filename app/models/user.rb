@@ -37,11 +37,19 @@ class User < ActiveRecord::Base
 
   # ---------------------- Callbacks ----------------------------------
   before_save :downcase_email # so as to ensure uniqueness before saving to database
+  before_save :create_remember_token # creates a secure token, in order to remember user, so as not to sign in every time
   after_validation { self.errors.messages.delete(:password_digest) }
 
   # -------------- Instance Methods ------------------------------------
 
   def downcase_email
     self.email = email.downcase
+  end
+
+  # ----------------- Private Methods ----------------------------------
+  private
+  
+  def create_remember_token
+    self.remember_token = SecureRandom.urlsafe_base64
   end
 end

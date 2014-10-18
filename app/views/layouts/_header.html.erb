@@ -1,3 +1,15 @@
-<div class="">
-  <h1>MovieRama</h1>
+<div class="span-8">
+  <h1><%= link_to "MovieRama", root_path, id: 'logo-text' %></h1>
 </div>
+
+<div class="span-16 prepend-top last" style="text-align: right;">
+  <% if signed_in? %>
+    Welcome back <%= link_to current_user.name, current_user %>
+    &nbsp&nbsp&nbsp&nbsp&nbsp
+    <%= link_to "Sign out", signout_path, method: :delete %>
+  <% else %>
+    <%= link_to "Login", signin_path %> or <%= link_to "Sign Up", signup_path %>
+  <% end %>
+</div>
+
+<hr class="space">

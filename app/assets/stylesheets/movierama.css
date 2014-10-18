@@ -186,3 +186,15 @@ hr.space {background:#fff;color:#fff;visibility:hidden;}
 .notice a {color:#514721;}
 .success a {color:#264409;}
 .info a {color:#205791;}
+
+#main_page{
+  margin-left: auto;
+  margin-right: auto;
+  width: 960px
+}
+
+#logo-text{
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+}
