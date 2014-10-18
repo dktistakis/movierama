@@ -28,7 +28,11 @@ describe User do
       u.should respond_to(:name)
       u.should respond_to(:email)
       u.should respond_to(:password_digest)
+      u.should respond_to(:password)
+      u.should respond_to(:password_confirmation)
       u.should respond_to(:remember_token)
+      u.should respond_to(:authenticate)
+      u.should be_valid
     end
   end
 
@@ -85,6 +89,45 @@ describe User do
       addresses.each do |valid_address|
         u.email = valid_address
         u.should be_valid
+      end
+    end
+
+    describe 'for Password' do
+      it 'should not allow password to be blank' do
+        u.password = u.password_confirmation = " "
+        u.should_not be_valid
+      end
+
+      it 'should not allow password_confirmation to be different than password' do
+        u.password_confirmation = 'somethingelse'
+        u.should_not be_valid
+      end
+
+      it 'should not allow password_confirmation to be nil' do
+        u.password_confirmation = 'nil'
+        u.should_not be_valid
+      end
+
+      it 'should not be too short' do
+        u.password = u.password_confirmation = 'a' * 5
+        u.should_not be_valid
+      end
+    end
+
+    describe 'Authenticate' do
+      before(:each) do
+        u.save
+      end
+      let(:user) { User.find_by_name(u.name) }
+
+      it 'should return value of authenticate method with valid password' do
+        u.should == user.authenticate(u.password)
+      end
+
+      it 'should fail if invalid password' do
+        wrong_user = user.authenticate('invalid_password')
+        u.should_not == wrong_user
+        wrong_user.should be_false
       end
     end
   end

@@ -17,7 +17,8 @@ class User < ActiveRecord::Base
   has_many :movies, dependent: :destroy
 
   # --------------------- Mass Assignment -----------------------------
-  attr_accessible :email, :name, :password_digest, :remember_token
+  attr_accessible :email, :name, :password_digest, :password, :password_confirmation, :remember_token
+  has_secure_password # deals with the security and authentication of password, password_confirmation and password_digest.
 
   # --------------------- Validations --------------------------------
   validates :name, presence: true,
@@ -29,8 +30,13 @@ class User < ActiveRecord::Base
                     uniqueness: { :case_sensitive => false },
                     format: { with: VALID_EMAIL_REGEX }
 
+  validates :password, presence: true,
+                       length: { minimum: 6 }
+
+  validates :password_confirmation, presence: true
+
   # ---------------------- Callbacks ----------------------------------
-  before_save :downcase_email # so as to ensure uniqueness
+  before_save :downcase_email # so as to ensure uniqueness before saving to database
 
   # -------------- Instance Methods ------------------------------------
 
