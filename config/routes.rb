@@ -1,4 +1,18 @@
 Movierama::Application.routes.draw do
+  get "movies/new"
+
+  get "movies/create"
+
+  get "movies/update"
+
+  get "movies/edit"
+
+  get "movies/destroy"
+
+  get "movies/index"
+
+  get "users/new"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
