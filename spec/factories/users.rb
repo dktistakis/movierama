@@ -3,8 +3,8 @@
 FactoryGirl.define do
   factory :user do
     name "MyString"
-    email "MyString"
+    email "anemail@example.com"
     password_digest "MyString"
-    remeber_token "MyString"
+    remember_token "MyString"
   end
 end
