@@ -9,6 +9,7 @@ class SessionsController < ApplicationController
     user = User.find_by_name(params[:session][:name])
     if user && user.authenticate(params[:session][:password])
       sign_in user
+      flash[:success] = 'You have successfully logged in'
       redirect_to user
     else
       flash.now[:error] = 'Invalid email/password combination'

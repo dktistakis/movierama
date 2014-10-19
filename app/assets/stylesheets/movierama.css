@@ -190,11 +190,52 @@ hr.space {background:#fff;color:#fff;visibility:hidden;}
 #main_page{
   margin-left: auto;
   margin-right: auto;
-  width: 960px
+  width: 960px;
+  background-color: #D9B88B;
 }
 
 #logo-text{
   cursor: pointer;
   text-decoration: none;
   color: black;
+}
+
+.btn-01{
+  -moz-border-radius:28px;
+  -webkit-border-radius:28px;
+  border-radius:28px;
+  display:inline-block;
+  cursor:pointer;
+  font-size:18px;
+  padding:5px 25px;
+  text-decoration:none;
+  margin-top: 20px;
+}
+.btn-01:active {
+  position:relative;
+  top:1px;
+}
+
+.btn-01-green {
+  background-color:#5cbf2a;
+  border:1px solid #18ab29;
+  color:#ffffff;
+}
+.btn-01-green:hover {
+  background-color:#5cbf2a;
+}
+
+.movie-box{
+  border: solid black;
+  padding: 5px
+}
+
+.tac{
+  text-align: center;
+}
+
+#order-bar{
+  border: solid black;
+  background-color: #a8a8a8;
+  padding: 10px 5px; 
 }

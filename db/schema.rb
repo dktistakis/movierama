@@ -15,12 +15,12 @@ ActiveRecord::Schema.define(:version => 20141018100627) do
 
   create_table "movies", :force => true do |t|
     t.string   "title"
-    t.string   "description"
+    t.text     "description"
     t.integer  "user_id"
-    t.integer  "likes_count"
-    t.integer  "hates_count"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.integer  "likes_count", :default => 0
+    t.integer  "hates_count", :default => 0
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
   end
 
   create_table "users", :force => true do |t|

@@ -21,5 +21,6 @@ class UsersController < ApplicationController
   def show
     @title = 'User'
     @user = User.find(params[:id])
+    @movies = @user.movies
   end
 end

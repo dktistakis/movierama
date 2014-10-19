@@ -12,7 +12,7 @@ feature "Signin" do
     click_button "Login"
 
     page.should have_selector('h1', text: u.name)
-    page.should have_selector('h2', text: u.email)
+    page.should have_link('New Movie', href: new_user_movie_path(u))
     page.should have_link('Sign out', href: signout_path)
     page.should_not have_link('Login', href: signin_path)
 

@@ -13,5 +13,37 @@
 #
 
 class Movie < ActiveRecord::Base
+
+  # --------------------- Associations --------------------------------
+  belongs_to :user
+
+  # --------------------- Mass Assignment -----------------------------
   attr_accessible :description, :hates_count, :likes_count, :title, :user_id
+
+  # --------------------- Validations --------------------------------
+  validates :title, presence: true,
+                    uniqueness: { :case_sensitive => false },
+                    length: { maximum: 50}
+
+  validates :description, presence: true,
+                          length: { maximum: 300}
+
+  validates :user_id, presence: true
+
+  validate :user_existance
+
+  # ---------------------- Callbacks ----------------------------------
+
+
+  # -------------- Instance Methods ------------------------------------
+
+
+  # ----------------- Private Methods ----------------------------------
+  private
+  
+  def user_existance
+    unless User.exists?(id: user_id)
+      self.errors[:user_id] << 'This user does not exist'
+    end
+  end
 end

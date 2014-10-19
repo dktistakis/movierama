@@ -1,19 +1,10 @@
 Movierama::Application.routes.draw do
-  get "movies/new"
-
-  get "movies/create"
-
-  get "movies/update"
-
-  get "movies/edit"
-
-  get "movies/destroy"
-
-  get "movies/index"
 
   root to: 'movies#index'
 
-  resources :users
+  resources :users do
+    resources :movies, except: [:index]
+  end
   resources :sessions, only: [:new, :create, :destroy]
 
   match '/signup', to: 'users#new'

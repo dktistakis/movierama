@@ -1,0 +1,12 @@
+<div class="movie-box">
+  <span style="font-size: 1.5em; font-weight: bold;"><%= movie.title %></span>
+  <br>
+  Posted by <%= link_to movie.user.name, user_path(movie.user) %> <%= time_ago_in_words(movie.created_at) %> ago
+  <br><br>
+  <div>
+    <%= movie.description %>
+  </div>
+  <br>
+  <%= movie.likes_count %> likes | <%= movie.hates_count %> hates
+</div>
+<br>
