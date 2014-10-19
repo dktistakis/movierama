@@ -16,6 +16,8 @@ class Movie < ActiveRecord::Base
 
   # --------------------- Associations --------------------------------
   belongs_to :user
+  has_many :likes, dependent: :destroy
+  has_many :hates, dependent: :destroy
 
   # --------------------- Mass Assignment -----------------------------
   attr_accessible :description, :hates_count, :likes_count, :title, :user_id

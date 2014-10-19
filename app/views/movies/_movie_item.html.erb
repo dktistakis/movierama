@@ -1,4 +1,5 @@
 <div class="movie-box">
+  <%= render 'shared/error_messages', obj: movie %>
   <span style="font-size: 1.5em; font-weight: bold;"><%= movie.title %></span>
   <br>
   Posted by <%= link_to movie.user.name, user_path(movie.user) %> <%= time_ago_in_words(movie.created_at) %> ago
@@ -7,6 +8,6 @@
     <%= movie.description %>
   </div>
   <br>
-  <%= movie.likes_count %> likes | <%= movie.hates_count %> hates
+  <%= link_to "#{movie.likes_count} likes", user_movie_likes_path(movie.user, movie), method: :post %>  | <%= link_to "#{movie.hates_count} hates", user_movie_hates_path(movie.user, movie), method: :post %>
 </div>
 <br>

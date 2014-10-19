@@ -3,7 +3,10 @@ Movierama::Application.routes.draw do
   root to: 'movies#index'
 
   resources :users do
-    resources :movies, except: [:index]
+    resources :movies, except: [:index] do
+      resources :likes, only: [:create, :destroy]
+      resources :hates, only: [:create, :destroy]
+    end
   end
   resources :sessions, only: [:new, :create, :destroy]
 
