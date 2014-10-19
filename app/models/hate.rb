@@ -8,5 +8,15 @@ class Hate < ActiveRecord::Base
   attr_accessible :movie_id, :user_id
 
   # --------------------- Validations --------------------------------
-  # validates :name, presence: true
+  validates_uniqueness_of :movie_id, scope: :user_id
+  validate :self_hating_prevention
+
+  # --------------------- Private ------------------------------------
+  private
+
+  def self_hating_prevention
+    if Movie.find(self.movie_id).user == self.user
+      self.errors[:user_id] << 'Cannot like your own movies!'
+    end
+  end
 end

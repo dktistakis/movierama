@@ -38,7 +38,9 @@ class Movie < ActiveRecord::Base
 
 
   # -------------- Instance Methods ------------------------------------
-
+  # def own_movie?
+  #   self.user == current_user
+  # end
 
   # ----------------- Private Methods ----------------------------------
   private

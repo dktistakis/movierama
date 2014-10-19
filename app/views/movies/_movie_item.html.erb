@@ -8,6 +8,28 @@
     <%= movie.description %>
   </div>
   <br>
-  <%= link_to "#{movie.likes_count} likes", user_movie_likes_path(movie.user, movie), method: :post %>  | <%= link_to "#{movie.hates_count} hates", user_movie_hates_path(movie.user, movie), method: :post %>
+  <% if !signed_in? || own_movie?(movie) %>
+    <%= movie.likes.count %> likes | <%= movie.hates.count %> hates
+  <% else %>
+    <% if l = liked_movie?(movie) %>
+      <div class="span-5">
+        <%= movie.likes.count %> likes | <%= link_to "#{movie.hates.count} hates", user_movie_hates_path(movie.user, movie), method: :post %>
+      </div>
+      <div class="span-10 last" style="text-align: right;">
+        You like this movie | <%= link_to "Unlike", user_movie_like_path(movie.user, movie.id, l.id), method: :delete %>
+      </div>
+      <div class="clear"></div>
+    <% elsif h = hated_movie?(movie) %>
+      <div class="span-5">
+        <%= link_to "#{movie.likes.count} likes", user_movie_likes_path(movie.user, movie), method: :post %> | <%= movie.hates.count %> hates
+      </div>
+      <div class="span-10 last" style="text-align: right;">
+        You hate this movie | <%= link_to "Unhate", user_movie_hate_path(movie.user, movie.id, h.id), method: :delete %>
+      </div>
+      <div class="clear"></div>
+    <% else %>
+      <%= link_to "#{movie.likes.count} likes", user_movie_likes_path(movie.user, movie), method: :post %>  | <%= link_to "#{movie.hates.count} hates", user_movie_hates_path(movie.user, movie), method: :post %>
+    <% end %>
+  <% end %>
 </div>
 <br>
