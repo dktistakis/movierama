@@ -16,8 +16,6 @@ describe Movie do
       m.should respond_to(:title)
       m.should respond_to(:description)
       m.should respond_to(:user_id)
-      m.should respond_to(:likes_count)
-      m.should respond_to(:hates_count)
     end
   end
 

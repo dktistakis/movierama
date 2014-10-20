@@ -11,5 +11,6 @@
  *= require_self
  *= require_tree .
  *
+ *= require blueprint/screen
  *= require movierama
  */

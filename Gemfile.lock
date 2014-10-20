@@ -32,6 +32,9 @@ GEM
       rake
     arel (3.0.3)
     bcrypt-ruby (3.0.1)
+    better_errors (1.1.0)
+      coderay (>= 1.0.0)
+      erubis (>= 2.6.6)
     builder (3.0.4)
     capybara (1.1.2)
       mime-types (>= 1.16)
@@ -42,6 +45,7 @@ GEM
       xpath (~> 0.1.4)
     childprocess (0.4.0)
       ffi (~> 1.0, >= 1.0.11)
+    coderay (1.1.0)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -147,6 +151,7 @@ PLATFORMS
 DEPENDENCIES
   annotate (= 2.5.0)
   bcrypt-ruby (= 3.0.1)
+  better_errors
   capybara (= 1.1.2)
   coffee-rails (~> 3.2.1)
   factory_girl_rails

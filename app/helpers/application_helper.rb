@@ -1,14 +1,5 @@
 module ApplicationHelper
 
-  def title
-    base_title = "MovieRama"
-    if @title.nil?
-      base_title
-    else
-      "#{@title} | #{base_title}"
-    end
-  end
-
   def own_movie?(movie)
     current_user.id == movie.user_id
   end

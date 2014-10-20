@@ -20,7 +20,7 @@ class Movie < ActiveRecord::Base
   has_many :hates, dependent: :destroy
 
   # --------------------- Mass Assignment -----------------------------
-  attr_accessible :description, :hates_count, :likes_count, :title, :user_id
+  attr_accessible :description, :title, :user_id
 
   # --------------------- Validations --------------------------------
   validates :title, presence: true,
