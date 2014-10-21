@@ -1,7 +1,7 @@
 <div id="order-bar">
   Sort by: 
-  <%= link_to "Date", params[:controller] == 'movies' ? root_path(order: 'date') : user_path(current_user, order: 'date') %> | 
-  <%= link_to "Likes", params[:controller] == 'movies' ? root_path(order: 'likes') : user_path(current_user, order: 'likes') %> | 
-  <%= link_to "Hates", params[:controller] == 'movies' ? root_path(order: 'hates') : user_path(current_user, order: 'hates') %> 
+  <%= link_to "Date", params[:controller] == 'movies' ? root_path(order: 'date') : user_path(params[:id], order: 'date') %> | 
+  <%= link_to "Likes", params[:controller] == 'movies' ? root_path(order: 'likes') : user_path(params[:id], order: 'likes') %> | 
+  <%= link_to "Hates", params[:controller] == 'movies' ? root_path(order: 'hates') : user_path(params[:id], order: 'hates') %> 
 </div>
 <br>
