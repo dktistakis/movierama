@@ -150,5 +150,11 @@ describe User do
       u.save
       u.email.should == "anemail@example.com"
     end
+
+    it 'should create remember token, before saving it' do
+      u.remember_token.should be_nil
+      u.save
+      u.remember_token.should_not be_nil
+    end
   end
 end

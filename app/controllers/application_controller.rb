@@ -24,18 +24,4 @@ class ApplicationController < ActionController::Base
     raise ActionController::RoutingError.new("Not Found: #{params[:path]}")
     # 404 Not Found
   end
-
-  def order_movies_shown
-    if params[:order] == 'likes'
-      @movies = Movie.select('movies.*').joins('left outer join likes on movies.id = likes.movie_id')
-                     .select('likes.movie_id, count(likes.*) as cnt').group('movies.id, likes.movie_id')
-                     .order('cnt desc')
-    elsif params[:order] == 'hates'
-      @movies = Movie.select('movies.*').joins('left outer join hates on movies.id = hates.movie_id')
-                     .select('hates.movie_id, count(hates.*) as cnt').group('movies.id, hates.movie_id')
-                     .order('cnt desc')
-    else
-      @movies = Movie.order('created_at DESC')
-    end
-  end
 end

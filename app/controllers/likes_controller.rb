@@ -3,7 +3,6 @@ class LikesController < ApplicationController
   before_filter :authenticate
 
   def create
-    # raise params.inspect
     l = Like.new(user_id: current_user.id, movie_id: params[:movie_id])
     if l.save
       has_hated = Hate.find_by_user_id_and_movie_id(l.user_id, l.movie.id) 

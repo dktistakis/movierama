@@ -4,10 +4,8 @@
 #
 #  id          :integer          not null, primary key
 #  title       :string(255)
-#  description :string(255)
+#  description :text
 #  user_id     :integer
-#  likes_count :integer
-#  hates_count :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
@@ -33,14 +31,6 @@ class Movie < ActiveRecord::Base
   validates :user_id, presence: true
 
   validate :user_existance
-
-  # ---------------------- Callbacks ----------------------------------
-
-
-  # -------------- Instance Methods ------------------------------------
-  # def own_movie?
-  #   self.user == current_user
-  # end
 
   # ----------------- Private Methods ----------------------------------
   private

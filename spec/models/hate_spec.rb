@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: hates
+#
+#  id         :integer          not null, primary key
+#  movie_id   :integer
+#  user_id    :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 require 'spec_helper'
 
 describe Hate do

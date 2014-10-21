@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: likes
+#
+#  id         :integer          not null, primary key
+#  movie_id   :integer
+#  user_id    :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class Like < ActiveRecord::Base
 
   # --------------------- Associations --------------------------------
@@ -10,8 +21,6 @@ class Like < ActiveRecord::Base
   # --------------------- Validations --------------------------------
   validates_uniqueness_of :movie_id, scope: :user_id
   validate :self_liking_prevention
-
-  # -------------- Instance Methods ------------------------------------
 
   # --------------------- Private ------------------------------------
   private
