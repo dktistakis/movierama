@@ -20,11 +20,11 @@ end
 group :test, :development do
   gem "rspec-rails"
   gem "factory_girl_rails"
-  gem 'orderly'
 end
 
 group :test do
   gem 'capybara', '1.1.2'
+  gem 'orderly'
 end
 
 group :development do
