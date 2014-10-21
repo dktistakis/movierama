@@ -1,6 +1,6 @@
 class LikesController < ApplicationController
 
-  before_filter :authenticate
+  before_filter :authenticate, only: [:create, :destroy]
 
   def create
     l = Like.new(user_id: current_user.id, movie_id: params[:movie_id])

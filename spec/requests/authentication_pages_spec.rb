@@ -5,11 +5,7 @@ feature "Signin" do
   let(:u) { FactoryGirl.create(:user) }
 
   scenario 'sign in with valid information should login user and sign out if sign out is pressed' do
-    visit signin_path
-
-    fill_in "Name", with: u.name
-    fill_in "Password", with: u.password
-    click_button "Login"
+    capybara_login_user(u)
 
     page.should have_selector('h1', text: u.name)
     page.should have_link('New Movie', href: new_user_movie_path(u))

@@ -35,4 +35,11 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
+
+  def capybara_login_user(u)
+    visit signin_path
+    fill_in 'Name', with: u.name
+    fill_in 'Password', with: u.password
+    click_button 'Login'
+  end
 end

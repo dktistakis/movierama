@@ -4,11 +4,7 @@ feature "Add Movie" do
   let(:u) { FactoryGirl.create(:user) }
   
   scenario 'successfully should show this movie in user_show and movies_index' do
-    visit signin_path
-
-    fill_in 'Name', with: u.name
-    fill_in 'Password', with: u.password
-    click_button 'Login'
+    capybara_login_user(u)
 
     click_link 'New Movie'
     fill_in 'Title', with: 'Flashy Title'

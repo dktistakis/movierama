@@ -1,0 +1,328 @@
+app/controllers/likes_controller.rb
+spec/controllers/hates_controller_spec.rb
+spec/controllers/likes_controller_spec.rb
+spec/controllers/movies_controller_spec.rb
+spec/controllers/users_controller_spec.rb
+spec/features/add_movie_spec.rb
+spec/features/authenticate_before_filter_spec.rb
+spec/features/require_not_logged_in_before_filter_spec.rb
+spec/features/vote_for_movie_spec.rb
+spec/requests/authentication_pages_spec.rb
+spec/spec_helper.rb
+
+
+#####
+
+
+diff --git a/app/controllers/likes_controller.rb b/app/controllers/likes_controller.rb
+index fef7fd5..f927252 100644
+--- a/app/controllers/likes_controller.rb
++++ b/app/controllers/likes_controller.rb
+@@ -1,6 +1,6 @@
+ class LikesController < ApplicationController
+ 
+-  before_filter :authenticate
++  before_filter :authenticate, only: [:create, :destroy]
+ 
+   def create
+     l = Like.new(user_id: current_user.id, movie_id: params[:movie_id])
+diff --git a/spec/controllers/hates_controller_spec.rb b/spec/controllers/hates_controller_spec.rb
+new file mode 100644
+index 0000000..7338bc1
+--- /dev/null
++++ b/spec/controllers/hates_controller_spec.rb
+@@ -0,0 +1,51 @@
++require 'spec_helper'
++
++describe HatesController do
++  let(:u) { FactoryGirl.create(:user) }
++  let(:u1) { FactoryGirl.create(:user, name:"othername", email:"email@gmail.com") }
++  let(:m) { FactoryGirl.create(:movie, user_id: u.id)}
++  let(:h) { FactoryGirl.create(:hate, movie_id: m.id, user_id: u1.id)}
++
++  before(:each) do
++    request.env["HTTP_REFERER"] = '/'
++  end
++
++  describe "POST 'create'" do
++    it 'should not create Hate if unregistered user' do
++      lambda do
++        post :create, user_id: u.id, movie_id: m.id
++      end.should_not change(Hate, :count)
++    end
++
++    it 'should not create Hate if own movie' do
++      controller.current_user = u
++      lambda do
++        post :create, user_id: u.id, movie_id: m.id
++      end.should_not change(Hate, :count)
++    end
++
++    it 'should create Hate if signedin user' do
++      controller.current_user = u1
++      lambda do
++        post :create, user_id: u1.id, movie_id: m.id
++      end.should change(Hate, :count).by(1)
++    end
++  end
++
++  describe "DELETE 'destroy'" do
++    it 'should not destroy Hate if unregistered user' do
++      h.reload
++      lambda do
++        delete :destroy, user_id: u1.id, movie_id: m.id, id: h.id
++      end.should_not change(Hate, :count)
++    end
++
++    it 'should destroy Hate if signedin user' do
++      controller.current_user = u1
++      h.reload
++      lambda do
++        delete :destroy, user_id: u.id, movie_id: m.id, id: h.id
++      end.should change(Hate, :count).by(-1)
++    end
++  end
++end
+\ No newline at end of file
+diff --git a/spec/controllers/likes_controller_spec.rb b/spec/controllers/likes_controller_spec.rb
+new file mode 100644
+index 0000000..c6cc84f
+--- /dev/null
++++ b/spec/controllers/likes_controller_spec.rb
+@@ -0,0 +1,51 @@
++require 'spec_helper'
++
++describe LikesController do
++  let(:u) { FactoryGirl.create(:user) }
++  let(:u1) { FactoryGirl.create(:user, name:"othername", email:"email@gmail.com") }
++  let(:m) { FactoryGirl.create(:movie, user_id: u.id)}
++  let(:l) { FactoryGirl.create(:like, movie_id: m.id, user_id: u1.id)}
++
++  before(:each) do
++    request.env["HTTP_REFERER"] = '/'
++  end
++
++  describe "POST 'create'" do
++    it 'should not create like if unregistered user' do
++      lambda do
++        post :create, user_id: u.id, movie_id: m.id
++      end.should_not change(Like, :count)
++    end
++
++    it 'should not create like if own movie' do
++      controller.current_user = u
++      lambda do
++        post :create, user_id: u.id, movie_id: m.id
++      end.should_not change(Like, :count)
++    end
++
++    it 'should create like if signedin user' do
++      controller.current_user = u1
++      lambda do
++        post :create, user_id: u1.id, movie_id: m.id
++      end.should change(Like, :count).by(1)
++    end
++  end
++
++  describe "DELETE 'destroy'" do
++    it 'should not destroy like if unregistered user' do
++      l.reload
++      lambda do
++        delete :destroy, user_id: u1.id, movie_id: m.id, id: l.id
++      end.should_not change(Like, :count)
++    end
++
++    it 'should destroy like if signedin user' do
++      controller.current_user = u1
++      l.reload
++      lambda do
++        delete :destroy, user_id: u.id, movie_id: m.id, id: l.id
++      end.should change(Like, :count).by(-1)
++    end
++  end
++end
+\ No newline at end of file
+diff --git a/spec/controllers/movies_controller_spec.rb b/spec/controllers/movies_controller_spec.rb
+new file mode 100644
+index 0000000..372ad67
+--- /dev/null
++++ b/spec/controllers/movies_controller_spec.rb
+@@ -0,0 +1,22 @@
++require 'spec_helper'
++
++describe MoviesController do
++  render_views
++
++  let(:u) { FactoryGirl.create(:user) }
++
++  describe "POST 'create'" do
++    it 'should not create movie if unregistered user' do
++      lambda do
++        post :create, movie: { title: 'a title', description: 'a description'}, user_id: u.id
++      end.should_not change(Movie, :count)
++    end
++
++    it 'should create movie if signed in' do
++      controller.current_user = u
++      lambda do
++        post :create, movie: { title: 'a title', description: 'a description'}, user_id: u.id
++      end.should change(Movie, :count).by(1)
++    end
++  end
++end
+\ No newline at end of file
+diff --git a/spec/controllers/users_controller_spec.rb b/spec/controllers/users_controller_spec.rb
+new file mode 100644
+index 0000000..62c88f2
+--- /dev/null
++++ b/spec/controllers/users_controller_spec.rb
+@@ -0,0 +1,21 @@
++require 'spec_helper'
++
++describe UsersController do
++
++  let(:u) { FactoryGirl.create(:user) }
++
++  describe "POST 'create'" do
++    it 'should create a user if not signed in' do
++      lambda do
++        post :create, user: { name:'aname', email:'jim@examplem.com', password:'jimakos', password_confirmation:'jimakos'}
++      end.should change(User, :count).by(1)
++    end
++
++    it 'should not create a user if signed in' do
++      controller.current_user = u
++      lambda do
++        post :create, user: { name:'aname', email:'jim@examplem.com', password:'jimakos', password_confirmation:'jimakos'}
++      end.should_not change(User, :count)
++    end
++  end
++end
+\ No newline at end of file
+diff --git a/spec/features/add_movie_spec.rb b/spec/features/add_movie_spec.rb
+index 3acff24..924449e 100644
+--- a/spec/features/add_movie_spec.rb
++++ b/spec/features/add_movie_spec.rb
+@@ -4,11 +4,7 @@ feature "Add Movie" do
+   let(:u) { FactoryGirl.create(:user) }
+   
+   scenario 'successfully should show this movie in user_show and movies_index' do
+-    visit signin_path
+-
+-    fill_in 'Name', with: u.name
+-    fill_in 'Password', with: u.password
+-    click_button 'Login'
++    capybara_login_user(u)
+ 
+     click_link 'New Movie'
+     fill_in 'Title', with: 'Flashy Title'
+diff --git a/spec/features/authenticate_before_filter_spec.rb b/spec/features/authenticate_before_filter_spec.rb
+new file mode 100644
+index 0000000..cd7786b
+--- /dev/null
++++ b/spec/features/authenticate_before_filter_spec.rb
+@@ -0,0 +1,12 @@
++require 'spec_helper'
++
++feature "authenticate before_filter for unregistered users" do
++  let(:u) { FactoryGirl.create(:user) }
++  
++  scenario 'should redirect to home page if visit signin_path' do
++    visit new_user_movie_path(u)
++
++    page.should have_selector('div', text:'You have to be logged in to do that.')
++    page.should have_selector('h1', text:'Sign in')
++  end
++end
+\ No newline at end of file
+diff --git a/spec/features/require_not_logged_in_before_filter_spec.rb b/spec/features/require_not_logged_in_before_filter_spec.rb
+new file mode 100644
+index 0000000..fed024b
+--- /dev/null
++++ b/spec/features/require_not_logged_in_before_filter_spec.rb
+@@ -0,0 +1,21 @@
++require 'spec_helper'
++
++feature "Require_not_logged_in before_filter for signed_in users" do
++  let(:u) { FactoryGirl.create(:user) }
++
++  before(:each) do
++    capybara_login_user(u)
++  end
++  
++  scenario 'should redirect to home page if visit signin_path' do
++    visit signin_path
++
++    page.should have_selector('h1', text:'All the Movies')
++  end
++
++  scenario 'should redirect to home page if visit signup_path' do
++    visit signup_path
++
++    page.should have_selector('h1', text:'All the Movies')
++  end
++end
+\ No newline at end of file
+diff --git a/spec/features/vote_for_movie_spec.rb b/spec/features/vote_for_movie_spec.rb
+index 91c9a09..7909412 100644
+--- a/spec/features/vote_for_movie_spec.rb
++++ b/spec/features/vote_for_movie_spec.rb
+@@ -17,11 +17,7 @@ feature "Try to vote a movie" do
+ 
+   scenario 'if logged in and other user movie' do
+     m.reload
+-    visit signin_path
+-
+-    fill_in 'Name', with: u.name
+-    fill_in 'Password', with: u.password
+-    click_button 'Login'
++    capybara_login_user(u)
+ 
+     click_link 'MovieRama'
+ 
+@@ -55,11 +51,7 @@ feature "Try to vote a movie" do
+ 
+   scenario 'if logged in and same user movie' do
+     m.reload
+-    visit signin_path
+-
+-    fill_in 'Name', with: u1.name
+-    fill_in 'Password', with: u1.password
+-    click_button 'Login'
++    capybara_login_user(u1)
+ 
+     click_link 'MovieRama'
+ 
+diff --git a/spec/requests/authentication_pages_spec.rb b/spec/requests/authentication_pages_spec.rb
+index e96d4ba..720d367 100644
+--- a/spec/requests/authentication_pages_spec.rb
++++ b/spec/requests/authentication_pages_spec.rb
+@@ -5,11 +5,7 @@ feature "Signin" do
+   let(:u) { FactoryGirl.create(:user) }
+ 
+   scenario 'sign in with valid information should login user and sign out if sign out is pressed' do
+-    visit signin_path
+-
+-    fill_in "Name", with: u.name
+-    fill_in "Password", with: u.password
+-    click_button "Login"
++    capybara_login_user(u)
+ 
+     page.should have_selector('h1', text: u.name)
+     page.should have_link('New Movie', href: new_user_movie_path(u))
+diff --git a/spec/spec_helper.rb b/spec/spec_helper.rb
+index 73304b6..7c8c8b7 100644
+--- a/spec/spec_helper.rb
++++ b/spec/spec_helper.rb
+@@ -35,4 +35,11 @@ RSpec.configure do |config|
+   # the seed, which is printed after each run.
+   #     --seed 1234
+   config.order = "random"
++
++  def capybara_login_user(u)
++    visit signin_path
++    fill_in 'Name', with: u.name
++    fill_in 'Password', with: u.password
++    click_button 'Login'
++  end
+ end

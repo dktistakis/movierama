@@ -17,11 +17,7 @@ feature "Try to vote a movie" do
 
   scenario 'if logged in and other user movie' do
     m.reload
-    visit signin_path
-
-    fill_in 'Name', with: u.name
-    fill_in 'Password', with: u.password
-    click_button 'Login'
+    capybara_login_user(u)
 
     click_link 'MovieRama'
 
@@ -55,11 +51,7 @@ feature "Try to vote a movie" do
 
   scenario 'if logged in and same user movie' do
     m.reload
-    visit signin_path
-
-    fill_in 'Name', with: u1.name
-    fill_in 'Password', with: u1.password
-    click_button 'Login'
+    capybara_login_user(u1)
 
     click_link 'MovieRama'
 
