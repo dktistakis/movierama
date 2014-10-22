@@ -4,8 +4,7 @@ Movierama::Application.routes.draw do
 
   resources :users, only: [:create, :show] do
     resources :movies, only: [:new, :create] do
-      resources :likes, only: [:create, :destroy]
-      resources :hates, only: [:create, :destroy]        
+      resources :votes, only: [:create, :destroy]      
     end
   end
   resources :sessions, only: [:create]

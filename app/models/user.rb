@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
 
   # --------------------- Associations --------------------------------
   has_many :movies, dependent: :destroy
+  has_many :votes, dependent: :destroy
 
   # --------------------- Mass Assignment -----------------------------
   attr_accessible :email, :name, :password_digest, :password, :password_confirmation, :remember_token

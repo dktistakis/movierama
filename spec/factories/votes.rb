@@ -1,8 +1,9 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :hate do
-    movie_id 1
+  factory :vote do
     user_id 1
+    movie_id 1
+    positive false
   end
 end

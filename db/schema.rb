@@ -11,28 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141019131552) do
-
-  create_table "hates", :force => true do |t|
-    t.integer  "movie_id"
-    t.integer  "user_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "likes", :force => true do |t|
-    t.integer  "movie_id"
-    t.integer  "user_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
+ActiveRecord::Schema.define(:version => 20141022160440) do
 
   create_table "movies", :force => true do |t|
     t.string   "title"
     t.text     "description"
     t.integer  "user_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.string   "likes_count", :default => "0"
+    t.string   "hates_count", :default => "0"
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
   end
 
   create_table "users", :force => true do |t|
@@ -46,5 +34,13 @@ ActiveRecord::Schema.define(:version => 20141019131552) do
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["remember_token"], :name => "index_users_on_remember_token"
+
+  create_table "votes", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "movie_id"
+    t.boolean  "positive"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
 end

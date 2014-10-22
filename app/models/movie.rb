@@ -14,11 +14,10 @@ class Movie < ActiveRecord::Base
 
   # --------------------- Associations --------------------------------
   belongs_to :user
-  has_many :likes, dependent: :destroy
-  has_many :hates, dependent: :destroy
+  has_many :votes, dependent: :destroy
 
   # --------------------- Mass Assignment -----------------------------
-  attr_accessible :description, :title, :user_id
+  attr_accessible :description, :title, :user_id, :likes_count, :hates_count
 
   # --------------------- Validations --------------------------------
   validates :title, presence: true,

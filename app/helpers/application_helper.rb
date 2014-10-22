@@ -5,10 +5,10 @@ module ApplicationHelper
   end
 
   def liked_movie?(movie)
-    Like.find_by_movie_id_and_user_id(movie.id, current_user.id)
+    current_user.votes.likes.where(movie_id: movie.id).first
   end
 
   def hated_movie?(movie)
-    Hate.find_by_movie_id_and_user_id(movie.id, current_user.id)
+    current_user.votes.hates.where(movie_id: movie.id).first
   end
 end

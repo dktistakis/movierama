@@ -20,16 +20,6 @@ class UsersController < ApplicationController
   def show
     @title = 'User'
     @user = User.find(params[:id])
-    if params[:order] == 'likes'
-      @movies = Movie.select('movies.*').joins('left outer join likes on movies.id = likes.movie_id')
-                     .select('likes.movie_id, count(likes.*) as cnt').where("movies.user_id = #{@user.id}")
-                     .group('movies.id, likes.movie_id').order('cnt desc')
-    elsif params[:order] == 'hates'
-      @movies = Movie.select('movies.*').joins('left outer join hates on movies.id = hates.movie_id')
-                     .select('hates.movie_id, count(hates.*) as cnt').where("movies.user_id = #{@user.id}")
-                     .group('movies.id, hates.movie_id').order('cnt desc')
-    else
-      @movies = @user.movies.order('created_at DESC')
-    end
+    order_movies(@user.movies)
   end
 end
