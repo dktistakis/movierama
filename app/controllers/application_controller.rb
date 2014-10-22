@@ -24,14 +24,4 @@ class ApplicationController < ActionController::Base
     raise ActionController::RoutingError.new("Not Found: #{params[:path]}")
     # 404 Not Found
   end
-
-  def order_movies(movies)
-    if params[:order] == 'likes'
-      @movies = movies.order('likes_count DESC')
-    elsif params[:order] == 'hates'
-      @movies = movies.order('hates_count DESC')
-    else
-      @movies = movies.order('created_at DESC')
-    end
-  end
 end

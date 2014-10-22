@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  include MovieHelper
   
   before_filter :require_not_logged_in, only: [:new, :create]
 

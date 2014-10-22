@@ -87,5 +87,23 @@ describe Vote do
       h.destroy
       m.reload.hates_count.to_i.should == 0
     end
+
+    it 'should delete an existing like vote, if hate vote is going to create from same user for same movie.' do
+      l.reload
+      m.reload.votes.likes.count.should == 1
+      m.votes.hates.count.should == 0
+      h = FactoryGirl.create(:vote, user_id: u.id, movie_id: m.id)
+      m.reload.votes.likes.count.should == 0
+      m.votes.hates.count.should == 1
+    end
+
+    it 'should delete an existing hate vote, if like vote is going to create from same user for same movie.' do
+      h.reload
+      m.reload.votes.likes.count.should == 0
+      m.votes.hates.count.should == 1
+      l = FactoryGirl.create(:vote, user_id: u2.id, movie_id: m.id, positive: true)
+      m.reload.votes.likes.count.should == 1
+      m.votes.hates.count.should == 0
+    end
   end
 end

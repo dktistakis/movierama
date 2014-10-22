@@ -30,7 +30,7 @@
       </div>
       <div class="clear"></div>
     <% else %>
-      <% if likes_count + hates_count == 0 %>
+      <% if movie.votes.count == 0 %>
         Be the first to vote for this movie: 
       <% end %>
       <%= link_to pluralize(likes_count, 'like'), user_movie_votes_path(movie.user, movie, vote: true), method: :post %>  | <%= link_to pluralize(hates_count, 'hate'), user_movie_votes_path(movie.user, movie, vote: false), method: :post %>
@@ -38,3 +38,18 @@
   <% end %>
 </div>
 <br>
+
+<% if !signed_in? || own_movie?(movie) %>
+  <div class="span-5">
+  <%= liked_movie?(movie) ? pluralize(likes_count, 'like') : (link_to pluralize(likes_count, 'like'), user_movie_votes_path(movie.user, movie, vote: true), method: :post) %>
+  |
+  <%= hated_movie?(movie) ? pluralize(hates_count, 'hate') : (link_to pluralize(hates_count, 'hate'), user_movie_votes_path(movie.user, movie, vote: false), method: :post) %>
+</div>
+<% end %>
+
+<%= if liked_movie?(movie) || hated_movie?(movie) %>
+  <div class="span-10 last" style="text-align: right;">
+    <% kind = kind_of_vote(movie) %>
+    <%= link_to "Un#{kind}", user_movie_vote_path(movie.user, movie.id, v.id), method: :delete %>
+  </div>
+<% end %>

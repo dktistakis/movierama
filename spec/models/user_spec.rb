@@ -36,12 +36,6 @@ describe User do
     end
   end
 
-  # describe 'Associations' do
-  #   it 'should have many movies' do
-  #     u.should respond_to(:movie)
-  #   end
-  # end
-
   describe 'Validations' do
 
     describe 'for name' do

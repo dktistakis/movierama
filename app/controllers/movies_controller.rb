@@ -1,6 +1,7 @@
 class MoviesController < ApplicationController
-  
-  before_filter :authenticate, except: :index
+  include MovieHelper
+
+  before_filter :authenticate, only: [:new, :create]
   
   def new
     @movie = Movie.new
@@ -15,15 +16,6 @@ class MoviesController < ApplicationController
     else
       render 'new'
     end
-  end
-
-  def update
-  end
-
-  def edit
-  end
-
-  def destroy
   end
 
   def index
