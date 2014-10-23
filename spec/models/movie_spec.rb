@@ -6,6 +6,8 @@
 #  title       :string(255)
 #  description :text
 #  user_id     :integer
+#  likes_count :string(255)      default("0")
+#  hates_count :string(255)      default("0")
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #

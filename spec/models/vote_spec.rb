@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: votes
+#
+#  id         :integer          not null, primary key
+#  user_id    :integer
+#  movie_id   :integer
+#  positive   :boolean
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 require 'spec_helper'
 
 describe Vote do
@@ -68,24 +80,24 @@ describe Vote do
   describe 'callbacks' do
     it 'should update vote_counters after save' do
       l.reload
-      m.reload.likes_count.to_i.should == 1
+      m.reload.likes_count.should == 1
       l1.reload
-      m.reload.likes_count.to_i.should == 2
-      m.hates_count.to_i.should == 0
+      m.reload.likes_count.should == 2
+      m.hates_count.should == 0
       h.reload
-      m.reload.hates_count.to_i.should == 1
+      m.reload.hates_count.should == 1
     end
 
     it 'should update vote_counters after destroy' do
       l.reload
       l1.reload
       h.reload
-      m.reload.likes_count.to_i.should == 2
-      m.hates_count.to_i.should == 1
+      m.reload.likes_count.should == 2
+      m.hates_count.should == 1
       l.destroy
-      m.reload.likes_count.to_i.should == 1
+      m.reload.likes_count.should == 1
       h.destroy
-      m.reload.hates_count.to_i.should == 0
+      m.reload.hates_count.should == 0
     end
 
     it 'should delete an existing like vote, if hate vote is going to create from same user for same movie.' do

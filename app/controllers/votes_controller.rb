@@ -23,7 +23,6 @@ class VotesController < ApplicationController
   def destroy
     v = Vote.find(params[:id])
     v.destroy
-    # redirect_to :back
 
     votes_html = render_to_string(partial: 'movies/vote_section', locals: { movie: v.movie })
 

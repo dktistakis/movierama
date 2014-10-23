@@ -17,10 +17,10 @@ ActiveRecord::Schema.define(:version => 20141022160440) do
     t.string   "title"
     t.text     "description"
     t.integer  "user_id"
-    t.string   "likes_count", :default => "0"
-    t.string   "hates_count", :default => "0"
-    t.datetime "created_at",                   :null => false
-    t.datetime "updated_at",                   :null => false
+    t.integer  "likes_count", :default => 0
+    t.integer  "hates_count", :default => 0
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
   end
 
   create_table "users", :force => true do |t|
