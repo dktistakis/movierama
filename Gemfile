@@ -25,6 +25,9 @@ end
 group :test do
   gem 'capybara', '1.1.2'
   gem 'orderly'
+  gem 'launchy'
+  gem 'selenium-webdriver', '2.43.0' # update this gem to latest version
+  gem 'database_cleaner'
 end
 
 group :development do

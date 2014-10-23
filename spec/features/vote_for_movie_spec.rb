@@ -13,7 +13,7 @@ feature "Try to vote a movie" do
     page.should_not have_selector("span", text: '0 hates')
   end
 
-  scenario 'if logged in and other user movie' do
+  scenario 'if logged in and other user movie', js: true do
     m.reload
     capybara_login_user(u)
 
@@ -23,28 +23,30 @@ feature "Try to vote a movie" do
     page.should have_selector("span", text: "0 likes")
     page.should have_selector("span", text: "0 hates")
 
-    find('.vote-link').click
+    find('.vote-link').click # 0 like span
 
     page.should have_content("1 like | 0 hates")
-    page.should have_selector("span", href: user_movie_vote_path(m.user, m.id, Vote.last.id))
-    page.should have_selector("span", href: user_movie_votes_path(m.user, m, vote:false))
+    page.should_not have_selector("span", text: "1 like")
+    page.should have_selector("span", text: "0 hates")
 
-    click_link "Unlike"
+    all('.vote-link')[1].click # Unlike span
+
     page.should have_content("0 likes | 0 hates")
-    page.should have_selector("span", href: user_movie_votes_path(m.user, m, vote: true))
-    page.should have_selector("span", href: user_movie_votes_path(m.user, m, vote:false))
+    page.should have_selector("span", text: "0 likes")
+    page.should have_selector("span", text: "0 hates")
 
-    click_link "0 likes"
-    click_link "0 hates"
+    find('.vote-link').click # 0 like span
+    find('.vote-link').click # 0 hate span
 
     page.should have_content("0 likes | 1 hate")
-    page.should have_selector("span", href: user_movie_vote_path(m.user, m.id, Vote.last.id))
-    page.should have_selector("span", href: user_movie_votes_path(m.user, m, vote: true))
+    page.should have_selector("span", text: "0 likes")
+    page.should_not have_selector("span", text: "1 hate")
 
-    click_link "Unhate"
+    all('.vote-link')[1].click # Unhate span
+    
     page.should have_content("0 likes | 0 hates")
-    page.should have_selector("span", href: user_movie_votes_path(m.user, m, vote: true))
-    page.should have_selector("span", href: user_movie_votes_path(m.user, m, vote:false))
+    page.should have_selector("span", text: "0 likes")
+    page.should have_selector("span", text: "0 hates")
   end
 
   scenario 'if logged in and same user movie' do
@@ -54,7 +56,7 @@ feature "Try to vote a movie" do
     click_link 'MovieRama'
 
     page.should have_content("0 likes | 0 hates")
-    page.should_not have_selector("span", href: user_movie_votes_path(m.user, m, vote: true))
-    page.should_not have_selector("span", href: user_movie_votes_path(m.user, m, vote:false))
+    page.should_not have_selector("span", text: "0 likes")
+    page.should_not have_selector("span", text: "0 hates")
   end
 end
