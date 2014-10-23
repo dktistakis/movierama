@@ -5,11 +5,11 @@ module MovieHelper
   end
 
   def liked_movie?(movie)
-    current_user.votes.likes.where(movie_id: movie.id).first
+    current_user.votes.likes.where(movie_id: movie.id).first if current_user
   end
 
   def hated_movie?(movie)
-    current_user.votes.hates.where(movie_id: movie.id).first
+    current_user.votes.hates.where(movie_id: movie.id).first if current_user
   end
   
   def order_movies(movies)
