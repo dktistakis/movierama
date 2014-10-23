@@ -68,3 +68,13 @@
   background-color: #a8a8a8;
   padding: 10px 5px; 
 }
+
+.vote-link{
+  color: #06c;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.vote-link:hover{
+  color: #09f; 
+}

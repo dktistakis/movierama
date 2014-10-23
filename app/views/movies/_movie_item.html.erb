@@ -14,24 +14,7 @@
 
   <br>
 
-  <% likes_count = movie.likes_count %>
-  <% hates_count = movie.hates_count %>
-  
-  <div class="span-8">
-    <%= "Be the first to vote for this movie:" if (movie.votes.count == 0 && signed_in? && !own_movie?(movie)) %>
-    <%= !signed_in? || own_movie?(movie) || liked_movie?(movie) ? pluralize(likes_count, 'like') : (link_to pluralize(likes_count, 'like'), user_movie_votes_path(movie.user, movie, vote: true), method: :post) %>
-    |
-    <%= !signed_in? || own_movie?(movie) || hated_movie?(movie) ? pluralize(hates_count, 'hate') : (link_to pluralize(hates_count, 'hate'), user_movie_votes_path(movie.user, movie, vote: false), method: :post) %>
-  </div>
-
-  <% if v= (liked_movie?(movie) || hated_movie?(movie)) %>
-    <div class="span-7 last" style="text-align: right;">
-      <% kind = kind_of_vote(movie) %>
-      You <%= kind %> this movie | <%= link_to "Un#{kind}", user_movie_vote_path(movie.user, movie.id, v.id), method: :delete %>
-    </div>
-  <% end %>
-
-  <div class="clear"></div>
+  <%= render partial: 'movies/vote_section', locals: { movie: movie } %>
   
 </div>
 <br>

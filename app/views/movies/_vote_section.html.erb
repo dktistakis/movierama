@@ -1,0 +1,22 @@
+<div class="vote-section">
+  <% likes_count = movie.likes_count %>
+  <% hates_count = movie.hates_count %>
+  
+  <!-- Instead of link for voting/unvoting, there is a span that has for attributes the url and method of its associated action. These two attributes are parsed by the jQuery code, which extracts them, in order to make these actions -->
+
+  <div class="span-8">
+    <%= "Be the first to vote for this movie:" if (movie.votes.count == 0 && signed_in? && !own_movie?(movie)) %>
+      <%= !signed_in? || own_movie?(movie) || liked_movie?(movie) ? pluralize(likes_count, 'like') : "<span class='vote-link' data-url=#{user_movie_votes_path(movie.user, movie, vote: true)} data-method='POST'>#{pluralize(likes_count, 'like')}</span>".html_safe %>
+    |
+    <%= !signed_in? || own_movie?(movie) || hated_movie?(movie) ? pluralize(hates_count, 'hate') : "<span class='vote-link' data-url=#{user_movie_votes_path(movie.user, movie, vote: false)} data-method='POST'>#{pluralize(hates_count, 'hate')}</span>".html_safe %>
+  </div>
+
+  <% if v= (liked_movie?(movie) || hated_movie?(movie)) %>
+    <div class="span-7 last" style="text-align: right;">
+      <% kind = kind_of_vote(movie) %>
+      You <%= kind %> this movie | <%= "<span class='vote-link' data-url=#{user_movie_vote_path(movie.user, movie.id, v.id)} data-method='DELETE'>Un#{kind}</span>".html_safe %>
+    </div>
+  <% end %>
+
+  <div class="clear"></div>
+</div>
