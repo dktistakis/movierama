@@ -36,6 +36,7 @@ feature "Try to vote a movie" do
     page.should have_selector("span", text: "0 hates")
 
     find('.vote-link').click # 0 like span
+    page.should have_content("1 like | 0 hates")
     find('.vote-link').click # 0 hate span
 
     page.should have_content("0 likes | 1 hate")
