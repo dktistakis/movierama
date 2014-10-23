@@ -12,9 +12,15 @@
   </div>
 
   <% if v= (liked_movie?(movie) || hated_movie?(movie)) %>
-    <div class="span-7 last" style="text-align: right;">
+    <div class="span-7 last tar">
       <% kind = kind_of_vote(movie) %>
       You <%= kind %> this movie | <%= "<span class='vote-link' data-url=#{user_movie_vote_path(movie.user, movie.id, v.id)} data-method='DELETE'>Un#{kind}</span>".html_safe %>
+    </div>
+  <% end %>
+
+  <% if signed_in? && own_movie?(movie) %>
+    <div class="span-7 last tar">
+      <%= link_to "Edit", edit_user_movie_path(movie.user, movie.id) %> | <%= link_to "Delete", user_movie_path(movie.user, movie.id), method: :delete %>
     </div>
   <% end %>
 

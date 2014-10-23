@@ -1,6 +1,6 @@
-<h1>Add new Movie</h1>
+<h1><%= params[:action] == 'new' ? "Add new Movie" : "Edit Movie" %></h1>
 <div class="span-10">
-  <%= form_for(@movie, url: user_movies_path(current_user)) do |f| %>
+  <%= form_for(@movie, url: params[:action] == 'new' ? user_movies_path(current_user) : user_movie_path(current_user, @movie)) do |f| %>
     <%= render 'shared/error_messages', obj: f.object %>
     <div class="field">
       <%= f.label :title %>
@@ -13,7 +13,7 @@
       <%= f.text_area :description %> 
     </div>
     <br>
-    <%= f.submit "Create Movie" %>
+    <%= f.submit params[:action] == 'new' ? "Create Movie" : "Update Movie" %>
   <% end %>
 </div>
 

@@ -3,7 +3,7 @@ Movierama::Application.routes.draw do
   root to: 'movies#index'
 
   resources :users, only: [:create, :show] do
-    resources :movies, only: [:new, :create] do
+    resources :movies, except: [:index, :show] do
       resources :votes, only: [:create, :destroy]      
     end
   end
