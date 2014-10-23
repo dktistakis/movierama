@@ -14,12 +14,13 @@ module MovieHelper
   
   def order_movies(movies)
     if params[:order] == 'likes'
-      @movies = movies.order('likes_count DESC')
+      ordering = 'likes_count DESC'
     elsif params[:order] == 'hates'
-      @movies = movies.order('hates_count DESC')
+      ordering = 'hates_count DESC'
     else
-      @movies = movies.order('created_at DESC')
+      ordering = 'created_at DESC'
     end
+    movies.order(ordering).paginate(per_page: 10, page: params[:page])
   end
 
   def kind_of_vote(movie)

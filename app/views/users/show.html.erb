@@ -6,3 +6,7 @@
 <%= render partial: 'movies/movie_item', collection: @movies, as: :movie %>
 
 <%= link_to "Back to All Movies", root_path %>
+
+<div class="tac">
+  <%= will_paginate @movies %>
+</div>

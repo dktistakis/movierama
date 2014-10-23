@@ -21,6 +21,6 @@ class UsersController < ApplicationController
   def show
     @title = 'User'
     @user = User.find(params[:id])
-    order_movies(@user.movies)
+    @movies = order_movies(@user.movies)
   end
 end

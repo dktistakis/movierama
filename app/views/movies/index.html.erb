@@ -1,5 +1,8 @@
 <h1>All the Movies</h1>
 <%= render partial: 'layouts/order_bar' %>
-<%= render partial: 'movies/movie_item', collection: @movies, as: :movie %>
 
+<%= render partial: 'movie_item', collection: @movies, as: :movie %>
 
+<div class="tac">
+  <%= will_paginate @movies %>
+</div>

@@ -19,6 +19,6 @@ class MoviesController < ApplicationController
   end
 
   def index
-    order_movies(Movie)
+    @movies = order_movies(Movie)
   end
 end
